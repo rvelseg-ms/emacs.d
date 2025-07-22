@@ -1,3 +1,8 @@
+;; Importar archivo de configuración sensible (claves, etc.)
+(let ((sensible-file (expand-file-name "sensible.el" user-emacs-directory)))
+  (when (file-exists-p sensible-file)
+    (load sensible-file)))
+
 (use-package dired-subtree
   :after dired
   :bind (:map dired-mode-map
@@ -5,13 +10,13 @@
               ("<tab>" . dired-subtree-toggle)
               ("C-<tab>" . dired-subtree-cycle))
   :config
-  (setq dired-subtree-use-backgrounds nil));;; Configuración básica
+  (setq dired-subtree-use-backgrounds nil))
 
-(setq inhibit-startup-message t)     ; Desactivar mensaje de bienvenida
-(setq initial-scratch-message ";;")  ; Mensaje inicial del buffer *scratch*
-(menu-bar-mode -1)                   ; Desactivar barra de menú
-(tool-bar-mode -1)                   ; Desactivar barra de herramientas
-(scroll-bar-mode -1)                 ; Desactivar barra de desplazamiento
+;;; Configuración básica
+(setq inhibit-startup-message t)  ; Desactivar mensaje de bienvenida
+(menu-bar-mode -1)                ; Desactivar barra de menú
+(tool-bar-mode -1)                ; Desactivar barra de herramientas
+(scroll-bar-mode -1)              ; Desactivar barra de desplazamiento
 
 ;; Frame inicial con fondo oscuro
 (add-to-list 'default-frame-alist '(background-color . "#3f3f3f"))
@@ -160,3 +165,8 @@
   ;; Ocultar archivos ocultos por defecto con hook más específico
   (add-hook 'dired-after-readin-hook 'dired-hide-dotfiles-mode))
 
+;;; ChatGPT Shell - Integración con OpenAI
+(use-package chatgpt-shell
+  :ensure t
+  :config
+  (setq chatgpt-shell-openai-key openai-key))
