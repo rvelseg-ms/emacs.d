@@ -13,10 +13,11 @@
   (setq dired-subtree-use-backgrounds nil))
 
 ;;; Configuración básica
-(setq inhibit-startup-message t)  ; Desactivar mensaje de bienvenida
-(menu-bar-mode -1)                ; Desactivar barra de menú
-(tool-bar-mode -1)                ; Desactivar barra de herramientas
-(scroll-bar-mode -1)              ; Desactivar barra de desplazamiento
+(setq inhibit-startup-message t)     ; Desactivar mensaje de bienvenida
+(setq initial-scratch-message ";;")  ; Mensaje inicial del buffer *scratch*
+(menu-bar-mode -1)                   ; Desactivar barra de menú
+(tool-bar-mode -1)                   ; Desactivar barra de herramientas
+(scroll-bar-mode -1)                 ; Desactivar barra de desplazamiento
 
 ;; Frame inicial con fondo oscuro
 (add-to-list 'default-frame-alist '(background-color . "#3f3f3f"))
