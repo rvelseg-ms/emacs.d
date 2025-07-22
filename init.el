@@ -112,7 +112,11 @@
          ("C-c g b" . magit-blame)
          ("C-c g l" . magit-log-current)
          ("C-c g f" . magit-log-buffer-file)
-         ("C-c g d" . magit-diff-buffer-file)))
+         ("C-c g d" . magit-diff-buffer-file)
+         ("C-c g r" . magit-diff-toggle-refine-hunk))
+  :config
+  ;; Activar refine hunk por defecto
+  (setq magit-diff-refine-hunk 'all))
 
 ;;; Helm - Framework de completado e interfaz
 (use-package helm
