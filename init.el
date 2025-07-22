@@ -88,3 +88,13 @@
   :bind (("M-i" . swiper-helm)
          ("C-c s" . swiper-helm)))
 
+;;; Dired - Administrador de archivos
+(use-package dired
+  :ensure nil  ; Dired viene incluido con Emacs
+  :custom
+  (dired-listing-switches "-alh --group-directories-first")
+  :config
+  ;; Ocultar detalles por defecto
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode))
+
+;;; Aquí irán tus configuraciones adicionales...
