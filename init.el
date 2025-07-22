@@ -6,10 +6,12 @@
               ("C-<tab>" . dired-subtree-cycle))
   :config
   (setq dired-subtree-use-backgrounds nil));;; Configuración básica
-(setq inhibit-startup-message t)  ; Desactivar mensaje de bienvenida
-(menu-bar-mode -1)                ; Desactivar barra de menú
-(tool-bar-mode -1)                ; Desactivar barra de herramientas
-(scroll-bar-mode -1)              ; Desactivar barra de desplazamiento
+
+(setq inhibit-startup-message t)     ; Desactivar mensaje de bienvenida
+(setq initial-scratch-message ";;")  ; Mensaje inicial del buffer *scratch*
+(menu-bar-mode -1)                   ; Desactivar barra de menú
+(tool-bar-mode -1)                   ; Desactivar barra de herramientas
+(scroll-bar-mode -1)                 ; Desactivar barra de desplazamiento
 
 ;; Frame inicial con fondo oscuro
 (add-to-list 'default-frame-alist '(background-color . "#3f3f3f"))
@@ -67,11 +69,30 @@
   (load-theme 'zenburn t))
 
 ;;; Key bindings globales
+;; Funciones para cambiar tamaño de fuente globalmente
+(defun global-text-scale-increase ()
+  "Aumentar tamaño de fuente globalmente."
+  (interactive)
+  (let ((new-height (+ (face-attribute 'default :height) 10)))
+    (set-face-attribute 'default nil :height new-height)))
+
+(defun global-text-scale-decrease ()
+  "Disminuir tamaño de fuente globalmente."
+  (interactive)
+  (let ((new-height (- (face-attribute 'default :height) 10)))
+    (when (> new-height 50)  ; Evitar fuentes demasiado pequeñas
+      (set-face-attribute 'default nil :height new-height))))
+
+(defun global-text-scale-reset ()
+  "Resetear tamaño de fuente al valor por defecto."
+  (interactive)
+  (set-face-attribute 'default nil :height 100))  ; 100 es el tamaño por defecto
+
 ;; Cambiar tamaño de fuente globalmente
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-=") 'text-scale-increase)  ; Alternativo sin Shift
-(global-set-key (kbd "C-0") 'text-scale-adjust)    ; Resetear a tamaño original
+(global-set-key (kbd "C-+") 'global-text-scale-increase)
+(global-set-key (kbd "C--") 'global-text-scale-decrease)
+(global-set-key (kbd "C-=") 'global-text-scale-increase)  ; Alternativo sin Shift
+(global-set-key (kbd "C-0") 'global-text-scale-reset)     ; Resetear a tamaño original
 
 ;; Redimensionar ventanas/windows
 (global-set-key (kbd "C-S-<left>") 'shrink-window-horizontally)
@@ -138,3 +159,4 @@
   :config
   ;; Ocultar archivos ocultos por defecto con hook más específico
   (add-hook 'dired-after-readin-hook 'dired-hide-dotfiles-mode))
+
