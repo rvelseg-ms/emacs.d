@@ -1,12 +1,29 @@
-;; init.el - Configuración personal de Emacs
-;; Autor: [Tu nombre]
-;; Fecha: 22 de Julio, 2025
-
 ;;; Configuración básica
 (setq inhibit-startup-message t)  ; Desactivar mensaje de bienvenida
 (menu-bar-mode -1)                ; Desactivar barra de menú
 (tool-bar-mode -1)                ; Desactivar barra de herramientas
 (scroll-bar-mode -1)              ; Desactivar barra de desplazamiento
+
+;; Frame inicial con fondo oscuro
+(add-to-list 'default-frame-alist '(background-color . "#3f3f3f"))
+(add-to-list 'default-frame-alist '(foreground-color . "#dcdccc"))
+(add-to-list 'initial-frame-alist '(background-color . "#3f3f3f"))
+(add-to-list 'initial-frame-alist '(foreground-color . "#dcdccc"))
+
+;;; Recentf - Archivos recientes persistentes
+(use-package recentf
+  :ensure nil  ; Viene incluido con Emacs
+  :init
+  (setq recentf-max-saved-items 200
+        recentf-max-menu-items 15
+        recentf-auto-cleanup 'never
+        recentf-save-file (concat user-emacs-directory "recentf"))
+  :config
+  (recentf-mode 1)
+  ;; Guardar la lista cada 5 minutos
+  (run-at-time nil (* 5 60) 'recentf-save-list)
+  ;; Guardar al salir de Emacs
+  (add-hook 'kill-emacs-hook #'recentf-save-list))
 
 ;; Números de línea
 (global-display-line-numbers-mode 1)
@@ -71,18 +88,13 @@
   :config
   (helm-mode 1)
   (helm-autoresize-mode 1)
-  ;; Definir el comando prefix primero
-  (define-prefix-command 'helm-command-prefix)
-  (global-set-key (kbd "C-c h") 'helm-command-prefix)
   :bind (("M-x" . helm-M-x)
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-buffers-list)
          ("C-x C-r" . helm-recentf)
-         :map helm-command-prefix-map
-         ("o" . helm-occur)
-         ("g" . helm-google-suggest)
-         ("M-x" . helm-M-x)))
+         ("C-c h o" . helm-occur)
+         ("C-c h g" . helm-google-suggest)))
 
 (use-package swiper-helm
   :bind (("M-i" . swiper-helm)
@@ -96,5 +108,3 @@
   :config
   ;; Ocultar detalles por defecto
   (add-hook 'dired-mode-hook 'dired-hide-details-mode))
-
-;;; Aquí irán tus configuraciones adicionales...
