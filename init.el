@@ -1,4 +1,11 @@
-;;; Configuración básica
+(use-package dired-subtree
+  :after dired
+  :bind (:map dired-mode-map
+              ("TAB" . dired-subtree-toggle)
+              ("<tab>" . dired-subtree-toggle)
+              ("C-<tab>" . dired-subtree-cycle))
+  :config
+  (setq dired-subtree-use-backgrounds nil));;; Configuración básica
 (setq inhibit-startup-message t)  ; Desactivar mensaje de bienvenida
 (menu-bar-mode -1)                ; Desactivar barra de menú
 (tool-bar-mode -1)                ; Desactivar barra de herramientas
@@ -119,15 +126,15 @@
   :ensure nil  ; Dired viene incluido con Emacs
   :custom
   (dired-listing-switches "-alh --group-directories-first")
+  (dired-hide-details-mode t)  ; Activar por defecto globalmente
   :config
-  ;; Ocultar detalles por defecto
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode))
+  ;; Asegurar que siempre esté activado
+  (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
 
-(use-package dired-subtree
+(use-package dired-hide-dotfiles
   :after dired
   :bind (:map dired-mode-map
-              ("TAB" . dired-subtree-toggle)
-              ("<tab>" . dired-subtree-toggle)
-              ("C-<tab>" . dired-subtree-cycle))
+              ("." . dired-hide-dotfiles-mode))
   :config
-  (setq dired-subtree-use-backgrounds nil))
+  ;; Ocultar archivos ocultos por defecto con hook más específico
+  (add-hook 'dired-after-readin-hook 'dired-hide-dotfiles-mode))
