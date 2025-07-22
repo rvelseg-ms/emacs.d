@@ -172,5 +172,10 @@
 ;;; ChatGPT Shell - Integración con OpenAI
 (use-package chatgpt-shell
   :ensure t
+  :bind (("C-c c c" . chatgpt-shell)
+         ("C-c c r" . chatgpt-shell-send-region)
+         ("C-c c b" . chatgpt-shell-send-buffer)
+         ("C-c c p" . chatgpt-shell-prompt-compose)
+         ("C-c c s" . chatgpt-shell-send-and-review-region))
   :config
   (setq chatgpt-shell-openai-key openai-key))
