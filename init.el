@@ -42,6 +42,9 @@
 ;; Números de línea
 (global-display-line-numbers-mode 1)
 
+;; Usar y/n en lugar de yes/no para confirmaciones
+(fset 'yes-or-no-p 'y-or-n-p)
+
 ;; Configuración de respaldo
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
