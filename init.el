@@ -59,6 +59,19 @@
   :config
   (load-theme 'zenburn t))
 
+;;; Key bindings globales
+;; Cambiar tamaño de fuente globalmente
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)  ; Alternativo sin Shift
+(global-set-key (kbd "C-0") 'text-scale-adjust)    ; Resetear a tamaño original
+
+;; Redimensionar ventanas/windows
+(global-set-key (kbd "C-S-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "C-S-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-S-<down>") 'shrink-window)
+(global-set-key (kbd "C-S-<up>") 'enlarge-window)
+
 ;;; Control de versiones - Magit
 (use-package magit
   :bind (("C-x g" . magit-status)
@@ -109,3 +122,12 @@
   :config
   ;; Ocultar detalles por defecto
   (add-hook 'dired-mode-hook 'dired-hide-details-mode))
+
+(use-package dired-subtree
+  :after dired
+  :bind (:map dired-mode-map
+              ("TAB" . dired-subtree-toggle)
+              ("<tab>" . dired-subtree-toggle)
+              ("C-<tab>" . dired-subtree-cycle))
+  :config
+  (setq dired-subtree-use-backgrounds nil))
