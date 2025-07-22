@@ -80,18 +80,19 @@
         helm-imenu-fuzzy-match t
         helm-completion-in-region-fuzzy-match t
         helm-candidate-number-limit 150
-        helm-split-window-inside-p t
+        helm-split-window-inside-p nil  ; Cambiado a nil para usar todo el frame
         helm-move-to-line-cycle-in-source t
         helm-echo-input-in-header-line t
-        helm-autoresize-max-height 0
-        helm-autoresize-min-height 20)
+        helm-autoresize-max-height 100  ; Usar el 100% de la altura
+        helm-autoresize-min-height 100  ; Mínimo también 100%
+        helm-display-buffer-default-height 100)
   :config
   (helm-mode 1)
   (helm-autoresize-mode 1)
   :bind (("M-x" . helm-M-x)
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files)
-         ("C-x b" . helm-buffers-list)
+         ("C-x b" . helm-mini)  ; Cambiado a helm-mini
          ("C-x C-r" . helm-recentf)
          ("C-c h o" . helm-occur)
          ("C-c h g" . helm-google-suggest)))
