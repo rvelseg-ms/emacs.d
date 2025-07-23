@@ -183,3 +183,9 @@
          ("C-c c s" . chatgpt-shell-send-and-review-region))
   :config
   (setq chatgpt-shell-openai-key openai-key))
+
+;;; Visual line mode for specific modes
+(add-hook 'magit-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'markdown-mode-hook 'visual-line-mode)
+(add-hook 'html-mode-hook 'visual-line-mode)
