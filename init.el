@@ -1,9 +1,12 @@
+;; -*- lexical-binding: t -*-
+
 ;; Importar archivo de configuración sensible (claves, etc.)
 (let ((sensible-file (expand-file-name "sensible.el" user-emacs-directory)))
   (when (file-exists-p sensible-file)
     (load sensible-file)))
 
 (use-package dired-subtree
+  :defer t
   :after dired
   :bind (:map dired-mode-map
               ("TAB" . dired-subtree-toggle)
@@ -111,6 +114,7 @@
 
 ;;; Control de versiones - Magit
 (use-package magit
+  :defer t
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch)
          ("C-c g b" . magit-blame)
@@ -124,6 +128,7 @@
 
 ;;; Helm - Framework de completado e interfaz
 (use-package helm
+  :defer t
   :init
   (setq helm-M-x-fuzzy-match t
         helm-mode-fuzzy-match t
@@ -152,12 +157,14 @@
          ("C-c h g" . helm-google-suggest)))
 
 (use-package swiper-helm
+  :defer t
   :bind (("M-i" . swiper-helm)
          ("C-c s" . swiper-helm)))
 
 ;;; Dired - Administrador de archivos
 (use-package dired
   :ensure nil  ; Dired viene incluido con Emacs
+  :defer t
   :custom
   (dired-listing-switches "-alh --group-directories-first")
   (dired-hide-details-mode t)  ; Activar por defecto globalmente
@@ -166,6 +173,7 @@
   (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
 
 (use-package dired-hide-dotfiles
+  :defer t
   :after dired
   :bind (:map dired-mode-map
               ("." . dired-hide-dotfiles-mode))
@@ -176,6 +184,7 @@
 ;;; ChatGPT Shell - Integración con OpenAI
 (use-package chatgpt-shell
   :ensure t
+  :defer t
   :bind (("C-c c c" . chatgpt-shell)
          ("C-c c r" . chatgpt-shell-send-region)
          ("C-c c b" . chatgpt-shell-send-buffer)
