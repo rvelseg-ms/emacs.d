@@ -172,6 +172,8 @@
   ;; Asegurar que siempre esté activado
   (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
 
+(global-set-key (kbd "C-c p") 'dired-jump)
+
 (use-package dired-hide-dotfiles
   :defer t
   :after dired
