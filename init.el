@@ -148,7 +148,12 @@
         helm-echo-input-in-header-line t
         helm-autoresize-max-height 100  ; Usar el 100% de la altura
         helm-autoresize-min-height 100  ; Mínimo también 100%
-        helm-display-buffer-default-height 100)
+        helm-display-buffer-default-height 100
+        helm-mini-default-sources '(helm-source-buffers-list
+                                     helm-source-recentf
+                                     helm-source-bookmarks
+                                     helm-source-emacs-commands
+                                     helm-source-man-pages))
   :config
   (helm-mode 1)
   (helm-autoresize-mode 1)
