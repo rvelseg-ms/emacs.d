@@ -112,6 +112,10 @@
 (global-set-key (kbd "C-S-<down>") 'shrink-window)
 (global-set-key (kbd "C-S-<up>") 'enlarge-window)
 
+;; Windmove para navegación de ventanas
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+
 ;;; Control de versiones - Magit
 (use-package magit
   :defer t
