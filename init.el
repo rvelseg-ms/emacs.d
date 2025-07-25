@@ -181,6 +181,13 @@
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
+(use-package dired-x
+  :defer t
+  :after dired
+  :config
+  (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
+  (define-key dired-mode-map (kbd ".") 'dired-omit-toggle))
+
 ;;; ChatGPT Shell - Integración con OpenAI
 (use-package chatgpt-shell
   :ensure t
