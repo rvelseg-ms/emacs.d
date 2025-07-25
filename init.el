@@ -201,3 +201,32 @@
          ("C-c c s" . chatgpt-shell-send-and-review-region))
   :config
   (setq chatgpt-shell-openai-key openai-key))
+
+;;; Org Mode
+(use-package org-bullets
+  :ensure t
+  :after org
+  :hook (org-mode . org-bullets-mode))
+
+(use-package org
+  :ensure t
+  :config
+  (setq org-ellipsis " ▼"))
+
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-directory (file-truename "~/roam"))
+  :custom
+  (org-roam-completion-everywhere t)
+  :config
+  (org-roam-db-autosync-mode))
+
+(use-package org-roam-ui
+  :ensure t
+  :after org-roam
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
