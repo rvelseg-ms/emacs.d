@@ -151,9 +151,7 @@
         helm-display-buffer-default-height 100
         helm-mini-default-sources '(helm-source-buffers-list
                                      helm-source-recentf
-                                     helm-source-bookmarks
-                                     helm-source-emacs-commands
-                                     helm-source-man-pages))
+                                     helm-source-bookmarks))
   :config
   (helm-mode 1)
   (helm-autoresize-mode 1)
