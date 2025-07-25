@@ -181,15 +181,6 @@
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
-(use-package dired-hide-dotfiles
-  :defer t
-  :after dired
-  :bind (:map dired-mode-map
-              ("." . dired-hide-dotfiles-mode))
-  :config
-  ;; Ocultar archivos ocultos por defecto con hook más específico
-  (add-hook 'dired-after-readin-hook 'dired-hide-dotfiles-mode))
-
 ;;; ChatGPT Shell - Integración con OpenAI
 (use-package chatgpt-shell
   :ensure t
