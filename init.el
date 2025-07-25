@@ -151,9 +151,7 @@
         helm-display-buffer-default-height 100
         helm-mini-default-sources '(helm-source-buffers-list
                                      helm-source-recentf
-                                     helm-source-bookmarks
-                                     helm-source-emacs-commands
-                                     helm-source-man-pages))
+                                     helm-source-bookmarks))
   :config
   (helm-mode 1)
   (helm-autoresize-mode 1)
@@ -181,14 +179,7 @@
   ;; Asegurar que siempre esté activado
   (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
 
-(use-package dired-hide-dotfiles
-  :defer t
-  :after dired
-  :bind (:map dired-mode-map
-              ("." . dired-hide-dotfiles-mode))
-  :config
-  ;; Ocultar archivos ocultos por defecto con hook más específico
-  (add-hook 'dired-after-readin-hook 'dired-hide-dotfiles-mode))
+(global-set-key (kbd "C-c p") 'dired-jump)
 
 ;;; ChatGPT Shell - Integración con OpenAI
 (use-package chatgpt-shell
@@ -230,3 +221,23 @@
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
+
+;;; Visual line mode for specific modes
+(add-hook 'magit-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'markdown-mode-hook 'visual-line-mode)
+(add-hook 'html-mode-hook 'visual-line-mode)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(tabbar session pod-mode muttrc-mode mutt-alias markdown-mode magit initsplit htmlize helm-org graphviz-dot-mode folding eproject diminish csv-mode company color-theme-modern browse-kill-ring boxquote bm bar-cursor apache-mode zenburn-theme wfnames use-package swiper-helm restart-emacs org-roam-ui org-bullets dired-subtree dired-hide-dotfiles chatgpt-shell)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

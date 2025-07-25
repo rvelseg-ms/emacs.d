@@ -1,1 +1,9 @@
 sensible.el
+bookmarks
+recentf
+auto-save-list/
+backups/
+eln-cache/
+transient/
+.chatgpt-shell.el
+elpa/
