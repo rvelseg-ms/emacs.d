@@ -208,6 +208,7 @@
   :ensure t
   :init
   (setq org-roam-directory (file-truename "~/roam"))
+  (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
   :custom
   (org-roam-completion-everywhere t)
   :config
@@ -234,7 +235,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(tabbar session pod-mode muttrc-mode mutt-alias markdown-mode magit initsplit htmlize helm-org graphviz-dot-mode folding eproject diminish csv-mode company color-theme-modern browse-kill-ring boxquote bm bar-cursor apache-mode zenburn-theme wfnames use-package swiper-helm restart-emacs org-roam-ui org-bullets dired-subtree dired-hide-dotfiles chatgpt-shell)))
+   '(f sqlite3 tabbar session pod-mode muttrc-mode mutt-alias markdown-mode magit initsplit htmlize helm-org graphviz-dot-mode folding eproject diminish csv-mode company color-theme-modern browse-kill-ring boxquote bm bar-cursor apache-mode zenburn-theme wfnames use-package swiper-helm restart-emacs org-roam-ui org-bullets dired-subtree dired-hide-dotfiles chatgpt-shell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
