@@ -176,17 +176,26 @@
   (dired-listing-switches "-alh --group-directories-first")
   (dired-hide-details-mode t)  ; Activar por defecto globalmente
   :config
+  ;; (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
   ;; Asegurar que siempre esté activado
   (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
+;; (use-package dired-x
+;;   :ensure nil
+;;   :hook (dired-mode . dired-omit-mode))
+
 (use-package dired-x
-  :defer t
-  :after dired
+  :ensure nil
+  :hook (dired-mode . dired-omit-mode)
+  ;; :bind (:map dired-mode-map
+  ;;             ("." . dired-omit-toggle))
   :config
-  (add-hook 'dired-mode-hook (lambda () (dired-omit-mode 1)))
-  (define-key dired-mode-map (kbd ".") 'dired-omit-toggle))
+  ;; (setq dired-omit-files-p t)
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+  ;; (setq dired-omit-files (concat dired-omit-files "\\|^\\..*\\|^_.*"))
+  )
 
 ;;; ChatGPT Shell - Integración con OpenAI
 (use-package chatgpt-shell
