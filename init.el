@@ -174,10 +174,8 @@
   :defer t
   :custom
   (dired-listing-switches "-alh --group-directories-first")
-  (dired-hide-details-mode t)  ; Activar por defecto globalmente
+  (dired-hide-details-mode t)
   :config
-  ;; (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
-  ;; Asegurar que siempre esté activado
   (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
 
 (global-set-key (kbd "C-c p") 'dired-jump)
