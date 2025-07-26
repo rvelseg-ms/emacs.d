@@ -158,7 +158,8 @@
   :bind (("M-x" . helm-M-x)
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files)
-         ("C-x b" . helm-mini)  ; Cambiado a helm-mini
+         ("C-x b"   . helm-mini)
+         ("C-x C-b" . helm-mini)
          ("C-x C-r" . helm-recentf)
          ("C-c h o" . helm-occur)
          ("C-c h g" . helm-google-suggest)))
@@ -217,10 +218,27 @@
   :init
   (setq org-roam-directory (file-truename "~/roam"))
   (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+  (setq org-roam-file-extensions '("org" "md"))
   :custom
   (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
   :config
-  (org-roam-db-autosync-mode))
+  (org-roam-db-autosync-mode)
+  ;; ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  ;; (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (require 'org-roam-protocol))
+
+(add-to-list 'load-path "/home/rvelseg/local/md-roam/")
+(require 'md-roam)
+(md-roam-mode 1) ; md-roam-mode must be active before org-roam-db-sync
+(setq md-roam-file-extension "md") ; default "md". Specify an extension such as "markdown"
+(org-roam-db-autosync-mode 1) ; autosync-mode triggers db-sync. md-roam-mode must be already active
 
 (use-package org-roam-ui
   :ensure t

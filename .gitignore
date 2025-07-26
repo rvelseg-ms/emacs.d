@@ -7,3 +7,4 @@ eln-cache/
 transient/
 .chatgpt-shell.el
 elpa/
+/.org-id-locations
