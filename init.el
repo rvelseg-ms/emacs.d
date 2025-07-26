@@ -182,19 +182,13 @@
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
-;; (use-package dired-x
-;;   :ensure nil
-;;   :hook (dired-mode . dired-omit-mode))
-
 (use-package dired-x
   :ensure nil
   :hook (dired-mode . dired-omit-mode)
   :bind (:map dired-mode-map
               ("." . dired-omit-mode))
   :config
-  ;; (setq dired-omit-files-p t)
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
-  ;; (setq dired-omit-files (concat dired-omit-files "\\|^\\..*\\|^_.*"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\..*\\|^_.*"))
   )
 
 ;;; ChatGPT Shell - Integración con OpenAI
