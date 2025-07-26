@@ -203,6 +203,20 @@
   (setq chatgpt-shell-openai-key openai-key))
 
 ;;; Org Mode
+;;; Company Mode
+(use-package company
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (setq company-idle-delay 0.2)
+  (setq company-minimum-prefix-length 2)
+  (setq company-selection-wrap-around t)
+  (setq company-tooltip-align-annotations t)
+  (with-eval-after-load 'company
+    (company-org-roam-init)))
+
 (use-package org-bullets
   :ensure t
   :after org
