@@ -214,8 +214,7 @@
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
   (setq company-tooltip-align-annotations t)
-  (with-eval-after-load 'company
-    (company-org-roam-init)))
+)
 
 (use-package org-bullets
   :ensure t
@@ -246,7 +245,8 @@
   (org-roam-db-autosync-mode)
   ;; ;; If you're using a vertical completion framework, you might want a more informative completion interface
   ;; (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-  (require 'org-roam-protocol))
+  (require 'org-roam-protocol)
+  )
 
 (add-to-list 'load-path "/home/rvelseg/local/md-roam/")
 (require 'md-roam)
