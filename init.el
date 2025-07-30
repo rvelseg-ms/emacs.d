@@ -76,9 +76,27 @@
 (setq use-package-always-ensure t)  ; Instalar automáticamente paquetes faltantes
 
 ;;; Tema
-(use-package zenburn-theme
+;; (use-package zenburn-theme
+;;   :config
+;;   (load-theme 'zenburn t))
+
+;; TODO: delete-trailing-whitespace for the following modes:
+;; - python
+;; - org
+;; - sh
+;; - emacs lisp
+
+;; TODO: enable some module for smooth scrolling.
+
+;; TODO: fix quotes for spanish in org export.
+
+;; TODO: include custom aspell dicts.
+
+;; TODO: Enable flyspell mode.
+
+(use-package monokai-theme
   :config
-  (load-theme 'zenburn t))
+  (load-theme 'monokai t))
 
 ;;; Key bindings globales
 ;; Funciones para cambiar tamaño de fuente globalmente
