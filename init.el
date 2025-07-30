@@ -44,7 +44,7 @@
   (add-hook 'kill-emacs-hook #'recentf-save-list))
 
 ;; Números de línea
-(global-display-line-numbers-mode 1)
+(global-display-line-numbers-mode 0)
 
 ;; Usar y/n en lugar de yes/no para confirmaciones
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -159,8 +159,8 @@
   :bind (("M-x" . helm-M-x)
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files)
-         ("C-x b"   . helm-mini)
-         ("C-x C-b" . helm-mini)
+         ("C-x b"   . helm-for-files)
+         ("C-x C-b" . helm-for-files)
          ("C-x C-r" . helm-recentf)
          ("C-c h o" . helm-occur)
          ("C-c h g" . helm-google-suggest)))
@@ -182,11 +182,15 @@
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
+(use-package dired-k)
+
 (use-package dired-x
   :ensure nil
   :hook (dired-mode . dired-omit-mode)
   :bind (:map dired-mode-map
-              ("." . dired-omit-mode))
+              ("." . dired-omit-mode)
+	      ("K" . dired-k)
+	      ("i" . dired-subtree-toggle))
   :config
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*\\|^_.*"))
   )
@@ -272,6 +276,16 @@
 
 (setq markdown-enable-wiki-links t)
 
+;; No truncar el buffer del shell
+(add-hook 'comint-mode-hook
+          (lambda ()
+            (setq comint-buffer-maximum-size 100000) ; o nil para ilimitado
+            (setq comint-scroll-to-bottom-on-input t)
+            (setq comint-scroll-show-maximum-output t)
+            (setq comint-input-ignoredups t)
+            (setq comint-output-filter-functions
+                  (remove 'comint-truncate-buffer comint-output-filter-functions))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -285,3 +299,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
