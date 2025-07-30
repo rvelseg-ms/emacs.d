@@ -125,6 +125,9 @@
 (global-set-key (kbd "C-0") 'global-text-scale-reset)     ; Resetear a tamaño original
 
 ;; Redimensionar ventanas/windows
+;;
+;; TODO: This collides with something (disabled) in org mode, fix
+;; that. It is probably a good idea to override.
 (global-set-key (kbd "C-S-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-S-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "C-S-<down>") 'shrink-window)

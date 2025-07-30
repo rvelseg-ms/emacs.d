@@ -8,3 +8,4 @@ transient/
 .chatgpt-shell.el
 elpa/
 /.org-id-locations
+/tramp
