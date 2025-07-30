@@ -98,6 +98,17 @@
   :config
   (load-theme 'monokai t))
 
+(defun toggle-split-direction ()
+  "Toggle the split direction of the current window."
+  (interactive)
+  (if (window-split-horizontally-p)
+      (progn
+        (delete-other-windows)
+        (split-window-vertically))
+    (progn
+      (delete-other-windows)
+      (split-window-horizontally))))
+
 ;;; Key bindings globales
 ;; Funciones para cambiar tamaño de fuente globalmente
 (defun global-text-scale-increase ()
@@ -133,6 +144,9 @@
 ;; Windmove para navegación de ventanas
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
+
+;; Toggle split direction
+(global-set-key (kbd "C-c |") 'toggle-split-direction)
 
 ;;; Control de versiones - Magit
 (use-package magit
