@@ -22,6 +22,27 @@
 (tool-bar-mode -1)                   ; Desactivar barra de herramientas
 (scroll-bar-mode -1)                 ; Desactivar barra de desplazamiento
 
+(use-package ultra-scroll
+  :ensure t
+  :init
+  ;; Default configuration
+  (setq scroll-conservatively 3
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1)
+  ;; CUSTOMIZATION:
+  ;; To reduce garbage collection pauses during scrolling
+  ;; (setq ultra-scroll-gc-percentage 0.8)
+  ;; (setq ultra-scroll-gc-idle-time 0.2)
+
+  ;; To change cursor hiding behavior
+  ;; (setq ultra-scroll-hide-cursor nil) ; to disable
+  ;; (setq ultra-scroll-hide-cursor-delay 0.2) ; delay before hiding
+
+  ;; For mac users, to adjust scroll speed
+  ;; (setq ultra-scroll-mac-multiplier 0.9)
+  )
+
 ;; Frame inicial con fondo oscuro
 (add-to-list 'default-frame-alist '(background-color . "#3f3f3f"))
 (add-to-list 'default-frame-alist '(foreground-color . "#dcdccc"))
