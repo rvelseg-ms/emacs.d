@@ -240,12 +240,18 @@
 
 (use-package dired-k)
 
+(defun dired-abrir-archivos-marcados ()
+  "En Dired, abre todos los archivos marcados en nuevos búferes."
+  (interactive)
+  (mapc #'find-file (dired-get-marked-files)))
+
 (use-package dired-x
   :ensure nil
   :hook (dired-mode . dired-omit-mode)
   :bind (:map dired-mode-map
               ("." . dired-omit-mode)
 	      ("K" . dired-k)
+	      ("F" . dired-abrir-archivos-marcados)
 	      ("i" . dired-subtree-toggle))
   :config
   (setq dired-omit-files (concat dired-omit-files "\\|^\\..*\\|^_.*"))
