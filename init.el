@@ -53,8 +53,8 @@
 (use-package recentf
   :ensure nil  ; Viene incluido con Emacs
   :init
-  (setq recentf-max-saved-items 200
-        recentf-max-menu-items 15
+  (setq recentf-max-saved-items 1000
+        recentf-max-menu-items 1000
         recentf-auto-cleanup 'never
         recentf-save-file (concat user-emacs-directory "recentf"))
   :config
