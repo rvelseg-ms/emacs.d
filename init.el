@@ -348,7 +348,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(f sqlite3 tabbar session pod-mode muttrc-mode mutt-alias markdown-mode magit initsplit htmlize helm-org graphviz-dot-mode folding eproject diminish csv-mode company color-theme-modern browse-kill-ring boxquote bm bar-cursor apache-mode zenburn-theme wfnames use-package swiper-helm restart-emacs org-roam-ui org-bullets dired-subtree dired-hide-dotfiles chatgpt-shell)))
+   '(apache-mode bar-cursor bm boxquote browse-kill-ring chatgpt-shell
+		 color-theme-modern company csv-mode diminish
+		 dired-hide-dotfiles dired-k dired-subtree eproject f
+		 folding graphviz-dot-mode helm-org htmlize initsplit
+		 magit markdown-mode monokai-theme mutt-alias
+		 muttrc-mode org-bullets org-roam-ui pod-mode
+		 restart-emacs session sqlite3 swiper-helm tabbar
+		 ultra-scroll use-package wfnames zenburn-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
