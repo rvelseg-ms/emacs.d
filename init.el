@@ -43,12 +43,6 @@
   ;; (setq ultra-scroll-mac-multiplier 0.9)
   )
 
-;; Frame inicial con fondo oscuro
-(add-to-list 'default-frame-alist '(background-color . "#3f3f3f"))
-(add-to-list 'default-frame-alist '(foreground-color . "#dcdccc"))
-(add-to-list 'initial-frame-alist '(background-color . "#3f3f3f"))
-(add-to-list 'initial-frame-alist '(foreground-color . "#dcdccc"))
-
 ;;; Recentf - Archivos recientes persistentes
 (use-package recentf
   :ensure nil  ; Viene incluido con Emacs
