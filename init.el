@@ -353,6 +353,12 @@
             (setq comint-output-filter-functions
                   (remove 'comint-truncate-buffer comint-output-filter-functions))))
 
+;;; treesit-fold configuration
+(use-package treesit-fold
+  :ensure t
+  :config
+  (global-treesit-fold-mode 1))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
