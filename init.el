@@ -295,7 +295,8 @@
 (use-package org
   :ensure t
   :config
-  (setq org-ellipsis " ▼"))
+  (setq org-ellipsis " ▼")
+  (setq org-hide-emphasis-markers t))
 
 (use-package org-roam
   :ensure t
