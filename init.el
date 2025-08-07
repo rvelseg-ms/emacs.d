@@ -366,7 +366,8 @@
 		 magit markdown-mode monokai-theme mutt-alias
 		 muttrc-mode org-bullets org-roam-ui pod-mode
 		 restart-emacs session sqlite3 swiper-helm tabbar
-		 ultra-scroll use-package wfnames zenburn-theme)))
+		 ultra-scroll use-package wfnames yasnippet-snippets
+		 zenburn-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
