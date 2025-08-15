@@ -369,16 +369,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(apache-mode bar-cursor bm boxquote browse-kill-ring chatgpt-shell
-		 color-theme-modern company csv-mode diminish
-		 dired-hide-dotfiles dired-k dired-subtree eproject f
-		 folding graphviz-dot-mode helm-org htmlize initsplit
-		 magit markdown-mode monokai-theme mutt-alias
-		 muttrc-mode org-bullets org-roam org-roam-ui pod-mode
-		 restart-emacs session sqlite3 swiper-helm tabbar
-		 treesit-fold ultra-scroll use-package wfnames
-		 yasnippet-snippets zenburn-theme)))
+ '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
