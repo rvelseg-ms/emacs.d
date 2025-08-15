@@ -287,6 +287,13 @@
   :ensure t
   :after yasnippet)
 
+;;; Python configuration
+(use-package python-mode
+  :ensure t
+  :hook (python-mode . python-ts-mode)
+  :bind (:map python-mode-map
+              ("C-c C-f" . treesit-fold-toggle)))
+
 (use-package org-bullets
   :ensure t
   :after org
