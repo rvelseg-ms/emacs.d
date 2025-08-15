@@ -245,6 +245,7 @@
   :bind (:map dired-mode-map
               ("." . dired-omit-mode)
 	      ("K" . dired-k)
+	      ("p" . dired-up-directory)
 	      ("F" . dired-abrir-archivos-marcados)
 	      ("i" . dired-subtree-toggle))
   :config
