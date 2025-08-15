@@ -355,9 +355,7 @@
 
 ;;; treesit-fold configuration
 (use-package treesit-fold
-  :ensure t
-  :config
-  (global-treesit-fold-mode 1))
+  :ensure t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
