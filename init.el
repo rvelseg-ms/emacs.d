@@ -320,11 +320,11 @@
   (require 'org-roam-protocol)
   )
 
-(add-to-list 'load-path "/home/rvelseg/local/md-roam/")
-(require 'md-roam)
-(md-roam-mode 1) ; md-roam-mode must be active before org-roam-db-sync
-(setq md-roam-file-extension "md") ; default "md". Specify an extension such as "markdown"
-(org-roam-db-autosync-mode 1) ; autosync-mode triggers db-sync. md-roam-mode must be already active
+;; (add-to-list 'load-path "/home/rvelseg/local/md-roam/")
+;; (require 'md-roam)
+;; (md-roam-mode 1) ; md-roam-mode must be active before org-roam-db-sync
+;; (setq md-roam-file-extension "md") ; default "md". Specify an extension such as "markdown"
+;; (org-roam-db-autosync-mode 1) ; autosync-mode triggers db-sync. md-roam-mode must be already active
 
 (use-package org-roam-ui
   :ensure t
