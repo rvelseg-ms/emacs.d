@@ -9,3 +9,4 @@ transient/
 elpa/
 /.org-id-locations
 /tramp
+/tree-sitter/
