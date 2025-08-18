@@ -236,7 +236,8 @@
   (dired-hide-details-mode t)
   :config
   (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
-  (add-hook 'dired-mode-hook #'jules/dired-insert-separator))
+  ;(add-hook 'dired-mode-hook #'jules/dired-insert-separator)
+  )
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
