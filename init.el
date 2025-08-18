@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-;; Importar archivo de configuración sensible (claves, etc.)
+;; Import sensitive configuration file (keys, etc.)
 (let ((sensible-file (expand-file-name "sensible.el" user-emacs-directory)))
   (when (file-exists-p sensible-file)
     (load sensible-file)))
@@ -15,12 +15,12 @@
   :config
   (setq dired-subtree-use-backgrounds nil))
 
-;;; Configuración básica
-(setq inhibit-startup-message t)     ; Desactivar mensaje de bienvenida
-(setq initial-scratch-message ";;")  ; Mensaje inicial del buffer *scratch*
-(menu-bar-mode -1)                   ; Desactivar barra de menú
-(tool-bar-mode -1)                   ; Desactivar barra de herramientas
-(scroll-bar-mode -1)                 ; Desactivar barra de desplazamiento
+;;; Basic configuration
+(setq inhibit-startup-message t)     ; Disable welcome message
+(setq initial-scratch-message ";;")  ; Initial *scratch* buffer message
+(menu-bar-mode -1)                   ; Disable menu bar
+(tool-bar-mode -1)                   ; Disable tool bar
+(scroll-bar-mode -1)                 ; Disable scroll bar
 
 (use-package ultra-scroll
   :ensure t
@@ -43,9 +43,9 @@
   ;; (setq ultra-scroll-mac-multiplier 0.9)
   )
 
-;;; Recentf - Archivos recientes persistentes
+;;; Recentf - Persistent recent files
 (use-package recentf
-  :ensure nil  ; Viene incluido con Emacs
+  :ensure nil  ; Included with Emacs
   :init
   (setq recentf-max-saved-items 1000
         recentf-max-menu-items 1000
@@ -53,44 +53,44 @@
         recentf-save-file (concat user-emacs-directory "recentf"))
   :config
   (recentf-mode 1)
-  ;; Guardar la lista cada 5 minutos
+  ;; Save the list every 5 minutes
   (run-at-time nil (* 5 60) 'recentf-save-list)
-  ;; Guardar al salir de Emacs
+  ;; Save on Emacs exit
   (add-hook 'kill-emacs-hook #'recentf-save-list))
 
-;; Números de línea
+;; Line numbers
 (global-display-line-numbers-mode 0)
 
-;; Usar y/n en lugar de yes/no para confirmaciones
+;; Use y/n instead of yes/no for confirmations
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; Configuración de respaldo
+;; Backup configuration
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
 
-;;; Configuración de repositorios de paquetes
+;;; Package repositories configuration
 (require 'package)
 
-;; Repositorios de paquetes
+;; Package repositories
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("gnu" . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
-;; Inicializar el sistema de paquetes
+;; Initialize the package system
 (package-initialize)
 
-;; Actualizar la lista de paquetes si no existe
+;; Refresh package list if it doesn't exist
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; Instalar use-package si no está instalado
+;; Install use-package if not installed
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
 (require 'use-package)
-(setq use-package-always-ensure t)  ; Instalar automáticamente paquetes faltantes
+(setq use-package-always-ensure t)  ; Automatically install missing packages
 
-;;; Tema
+;;; Theme
 ;; (use-package zenburn-theme
 ;;   :config
 ;;   (load-theme 'zenburn t))
@@ -124,33 +124,33 @@
       (delete-other-windows)
       (split-window-horizontally))))
 
-;;; Key bindings globales
-;; Funciones para cambiar tamaño de fuente globalmente
+;;; Global key bindings
+;; Functions to change font size globally
 (defun global-text-scale-increase ()
-  "Aumentar tamaño de fuente globalmente."
+  "Increase font size globally."
   (interactive)
   (let ((new-height (+ (face-attribute 'default :height) 10)))
     (set-face-attribute 'default nil :height new-height)))
 
 (defun global-text-scale-decrease ()
-  "Disminuir tamaño de fuente globalmente."
+  "Decrease font size globally."
   (interactive)
   (let ((new-height (- (face-attribute 'default :height) 10)))
-    (when (> new-height 50)  ; Evitar fuentes demasiado pequeñas
+    (when (> new-height 50)  ; Avoid fonts that are too small
       (set-face-attribute 'default nil :height new-height))))
 
 (defun global-text-scale-reset ()
-  "Resetear tamaño de fuente al valor por defecto."
+  "Reset font size to default."
   (interactive)
-  (set-face-attribute 'default nil :height 100))  ; 100 es el tamaño por defecto
+  (set-face-attribute 'default nil :height 100))  ; 100 is the default size
 
-;; Cambiar tamaño de fuente globalmente
+;; Change font size globally
 (global-set-key (kbd "C-+") 'global-text-scale-increase)
 (global-set-key (kbd "C--") 'global-text-scale-decrease)
-(global-set-key (kbd "C-=") 'global-text-scale-increase)  ; Alternativo sin Shift
-(global-set-key (kbd "C-0") 'global-text-scale-reset)     ; Resetear a tamaño original
+(global-set-key (kbd "C-=") 'global-text-scale-increase)  ; Alternative without Shift
+(global-set-key (kbd "C-0") 'global-text-scale-reset)     ; Reset to original size
 
-;; Redimensionar ventanas/windows
+;; Resize windows
 ;;
 ;; TODO: This collides with something (disabled) in org mode, fix
 ;; that. It is probably a good idea to override.
@@ -159,14 +159,14 @@
 (global-set-key (kbd "C-S-<down>") 'shrink-window)
 (global-set-key (kbd "C-S-<up>") 'enlarge-window)
 
-;; Windmove para navegación de ventanas
+;; Windmove for window navigation
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
 ;; Toggle split direction
 (global-set-key (kbd "C-c |") 'toggle-split-direction)
 
-;;; Control de versiones - Magit
+;;; Version control - Magit
 (use-package magit
   :defer t
   :bind (("C-x g" . magit-status)
@@ -178,10 +178,10 @@
          ("C-c g d" . magit-diff-buffer-file)
          ("C-c g r" . magit-diff-toggle-refine-hunk))
   :config
-  ;; Activar refine hunk por defecto
+  ;; Enable refine hunk by default
   (setq magit-diff-refine-hunk 'all))
 
-;;; Helm - Framework de completado e interfaz
+;;; Helm - Completion and interface framework
 (use-package helm
   :defer t
   :init
@@ -194,11 +194,11 @@
         helm-imenu-fuzzy-match t
         helm-completion-in-region-fuzzy-match t
         helm-candidate-number-limit 150
-        helm-split-window-inside-p nil  ; Cambiado a nil para usar todo el frame
+        helm-split-window-inside-p nil  ; Changed to nil to use the whole frame
         helm-move-to-line-cycle-in-source t
         helm-echo-input-in-header-line t
-        helm-autoresize-max-height 100  ; Usar el 100% de la altura
-        helm-autoresize-min-height 100  ; Mínimo también 100%
+        helm-autoresize-max-height 100  ; Use 100% of the height
+        helm-autoresize-min-height 100  ; Minimum also 100%
         helm-display-buffer-default-height 100
         helm-mini-default-sources '(helm-source-buffers-list
                                      helm-source-recentf
@@ -220,9 +220,9 @@
   :bind (("M-i" . swiper-helm)
          ("C-c s" . swiper-helm)))
 
-;;; Dired - Administrador de archivos
+;;; Dired - File manager
 (use-package dired
-  :ensure nil  ; Dired viene incluido con Emacs
+  :ensure nil  ; Dired is included with Emacs
   :defer t
   :custom
   (dired-listing-switches "-alh --group-directories-first")
@@ -234,8 +234,8 @@
 
 (use-package dired-k)
 
-(defun dired-abrir-archivos-marcados ()
-  "En Dired, abre todos los archivos marcados en nuevos búferes."
+(defun dired-open-marked-files ()
+  "In Dired, open all marked files in new buffers."
   (interactive)
   (mapc #'find-file (dired-get-marked-files)))
 
@@ -246,14 +246,14 @@
               ("." . dired-omit-mode)
 	      ("K" . dired-k)
 	      ("p" . dired-up-directory)
-	      ("F" . dired-abrir-archivos-marcados)
+	      ("F" . dired-open-marked-files)
 	      ("i" . dired-subtree-toggle))
   :config
   (setq dired-omit-files "^\\...+$")
   ;(setq dired-omit-files (concat dired-omit-files "\\|^\\..*\\|^_.*")
   )
 
-;;; ChatGPT Shell - Integración con OpenAI
+;;; ChatGPT Shell - OpenAI Integration
 (use-package chatgpt-shell
   :ensure t
   :defer t
@@ -352,10 +352,10 @@
 
 (setq markdown-enable-wiki-links t)
 
-;; No truncar el buffer del shell
+;; Do not truncate the shell buffer
 (add-hook 'comint-mode-hook
           (lambda ()
-            (setq comint-buffer-maximum-size 100000) ; o nil para ilimitado
+            (setq comint-buffer-maximum-size 100000) ; or nil for unlimited
             (setq comint-scroll-to-bottom-on-input t)
             (setq comint-scroll-show-maximum-output t)
             (setq comint-input-ignoredups t)
