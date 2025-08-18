@@ -258,7 +258,8 @@
 	      ("F" . dired-abrir-archivos-marcados)
 	      ("i" . dired-subtree-toggle))
   :config
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\..*\\|^_.*"))
+  (setq dired-omit-files "^\\...+$")
+  ;(setq dired-omit-files (concat dired-omit-files "\\|^\\..*\\|^_.*")
   )
 
 ;;; ChatGPT Shell - Integración con OpenAI
