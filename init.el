@@ -220,13 +220,6 @@
   :bind (("M-i" . swiper-helm)
          ("C-c s" . swiper-helm)))
 
-(defun jules/dired-insert-separator ()
-  "Insert a separator line after the dired header."
-  (save-excursion
-    (goto-char (point-min))
-    (end-of-line)
-    (insert "\n" (make-string (window-width) ?-))))
-
 ;;; Dired - Administrador de archivos
 (use-package dired
   :ensure nil  ; Dired viene incluido con Emacs
@@ -235,9 +228,7 @@
   (dired-listing-switches "-alh --group-directories-first")
   (dired-hide-details-mode t)
   :config
-  (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
-  ;(add-hook 'dired-mode-hook #'jules/dired-insert-separator)
-  )
+  (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
