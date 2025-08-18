@@ -309,7 +309,7 @@
 (use-package org-roam
   :ensure t
   :init
-  (setq org-roam-directory (file-truename "~/roam/org"))
+  (setq org-roam-directory (file-truename "~/personal/roam/org"))
   (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
   (setq org-roam-file-extensions '("org" "md"))
   :custom
