@@ -279,6 +279,50 @@
   (setq company-tooltip-align-annotations t)
 )
 
+;;; Company backend for org-roam tags
+(defun my/org-roam-get-all-tags ()
+  "Consulta la base de datos de org-roam y devuelve una lista
+con todas las etiquetas únicas."
+  (when (and (fboundp 'org-roam-db-available-p) (org-roam-db-available-p))
+    (mapcar #'car (org-roam-db-query '(:select (distinct tag) :from tags)))))
+
+(defun company-org-roam-tags (command &optional arg &rest ignored)
+  "Backend exclusivo de Company para las etiquetas de fichero en org-roam."
+  (interactive (list 'interactive))
+  (case command
+    (interactive (company-begin-backend 'company-org-roam-tags))
+
+    (prefix
+     ;; Este backend solo se activa si estamos en una línea de #+filetags:
+     (let ((line-content (thing-at-point 'line)))
+       (when (string-prefix-p "#+filetags:" line-content)
+         (let* ((line-up-to-point (buffer-substring-no-properties (line-beginning-position) (point)))
+                ;; Buscamos el texto que sigue al último ':'
+                (prefix (when (string-match ":\\([^:]*\\)$" line-up-to-point)
+                          (match-string-no-properties 1 line-up-to-point))))
+           ;; Devolvemos (prefix . t) para que este backend sea 'exclusivo'.
+           ;; Esto evita que otros backends (como el que busca palabras
+           ;; en el buffer) ofrezcan sus sugerencias.
+           (when prefix (cons prefix t))))))
+
+    (candidates
+     ;; Ofrecemos la lista de etiquetas como candidatas.
+     (let ((tags (my/org-roam-get-all-tags)))
+       (when tags
+         (company-filter-candidates arg tags))))
+
+    (meta "etiqueta de org-roam")))
+
+
+(defun my/setup-org-roam-tag-completion ()
+  "Añade el backend de etiquetas de org-roam a company-mode."
+  ;; Añadimos nuestro nuevo backend a la lista de backends de company.
+  ;; Lo ponemos al principio para darle prioridad.
+  (add-to-list 'company-backends 'company-org-roam-tags))
+
+;; Activamos esta configuración cada vez que se abre un archivo en org-mode.
+(add-hook 'org-mode-hook #'my/setup-org-roam-tag-completion)
+
 ;;; Yasnippet - Snippet expansion
 (use-package yasnippet
   :ensure t
