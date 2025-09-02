@@ -181,6 +181,9 @@
   ;; Enable refine hunk by default
   (setq magit-diff-refine-hunk 'all))
 
+(use-package forge
+  :after magit)
+
 ;;; Helm - Completion and interface framework
 (use-package helm
   :defer t
