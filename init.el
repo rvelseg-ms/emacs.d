@@ -230,6 +230,21 @@
   :custom
   (dired-listing-switches "-alh --group-directories-first")
   (dired-hide-details-mode t)
+  (dired-open-extensions '(("gif" . "eog")
+                         ("jpg" . "eog")
+                         ("png" . "eog")
+                         ("mkv" . "totem")
+                         ("mp4" . "totem")
+                         ("pdf" . "evince")
+                         ("doc" . "libreoffice")
+                         ("docx" . "libreoffice")
+                         ("xls" . "libreoffice")
+                         ("xlsx" . "libreoffice")
+                         ("ppt" . "libreoffice")
+                         ("pptx" . "libreoffice")
+                         ("odt" . "libreoffice")
+                         ("ods" . "libreoffice")
+                         ("odp" . "libreoffice")))
   :config
   (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
 
