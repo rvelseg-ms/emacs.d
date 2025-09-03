@@ -384,6 +384,9 @@
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
+         ("C-c n a" . org-roam-alias-add)
+         ("C-c n t" . org-roam-tag-add)
+         ("C-c n r" . org-roam-node-random)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today))
   :config
