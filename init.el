@@ -1,7 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
 ;; Import sensitive configuration file (keys, etc.)
-(let ((sensible-file (expand-file-name "sensible.el" user-emacs-directory)))
+(setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
+(let ((sensible-file (expand-file-name "sensible2.el.gpg" user-emacs-directory)))
   (when (file-exists-p sensible-file)
     (load sensible-file)))
 
