@@ -58,6 +58,15 @@
   ;; Save on Emacs exit
   (add-hook 'kill-emacs-hook #'recentf-save-list))
 
+;;; Savehist - Persistent history for kill-ring
+(use-package savehist
+  :ensure nil ; Included with Emacs
+  :init
+  (setq savehist-file (concat user-emacs-directory ".savehist")
+        savehist-additional-variables '(kill-ring))
+  :config
+  (savehist-mode 1))
+
 ;; Line numbers
 (global-display-line-numbers-mode 0)
 
