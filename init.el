@@ -185,6 +185,15 @@
 (use-package forge
   :after magit)
 
+(use-package code-review
+  :after forge
+  :config
+  (add-hook 'code-review-mode-hook #'emojify-mode)
+  (setq code-review-fill-column 80)
+  (setq code-review-auth-login-marker 'forge)
+  :bind (:map forge-topic-mode-map
+              ("C-c r" . code-review-forge-pr-at-point)))
+
 ;;; Helm - Completion and interface framework
 (use-package helm
   :defer t
