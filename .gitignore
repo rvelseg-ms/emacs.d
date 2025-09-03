@@ -11,3 +11,5 @@ elpa/
 /tramp
 /tree-sitter/
 /custom.el
+*.gpg
+*.sqlite
