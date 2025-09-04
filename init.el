@@ -7,6 +7,7 @@
     (load sensible-file)))
 
 (use-package dired-subtree
+  :ensure t
   :defer t
   :after dired
   :bind (:map dired-mode-map
@@ -43,6 +44,15 @@
   ;; For mac users, to adjust scroll speed
   ;; (setq ultra-scroll-mac-multiplier 0.9)
   )
+
+(use-package f
+  :ensure t)
+
+(use-package wfnames
+  :ensure t)
+
+(use-package restart-emacs
+  :ensure t)
 
 ;;; Recentf - Persistent recent files
 (use-package recentf
@@ -120,6 +130,7 @@
 ;; TODO: Enable flyspell mode.
 
 (use-package monokai-theme
+  :ensure t
   :config
   (load-theme 'monokai t))
 
@@ -229,6 +240,7 @@
          ("C-c h g" . helm-google-suggest)))
 
 (use-package swiper-helm
+  :ensure t
   :defer t
   :bind (("M-i" . swiper-helm)
          ("C-c s" . swiper-helm)))
@@ -260,7 +272,12 @@
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
-(use-package dired-k)
+(use-package dired-k
+  :ensure t)
+
+(use-package dired-hide-dotfiles
+  :ensure t
+  :hook (dired-mode . dired-hide-dotfiles-mode))
 
 (defun dired-open-marked-files ()
   "In Dired, open all marked files in new buffers."
@@ -370,6 +387,14 @@
   :bind (:map python-mode-map
               ("C-c C-f" . treesit-fold-toggle)))
 
+(use-package gitlab-ci-mode
+  :ensure t
+  :defer t)
+
+(use-package gitlab-ci-mode-flycheck
+  :ensure t
+  :after gitlab-ci-mode)
+
 (use-package org-bullets
   :ensure t
   :after org
@@ -381,6 +406,9 @@
   (setq org-ellipsis " ▼")
   (setq org-hide-emphasis-markers t))
 
+;; NOTE: org-roam requires sqlite3 to be installed on your system.
+;; You can install it with your system's package manager, e.g.,
+;; `sudo apt-get install sqlite3` or `brew install sqlite3`.
 (use-package org-roam
   :ensure t
   :init
@@ -424,10 +452,13 @@
 ;;; Visual line mode for specific modes
 (add-hook 'magit-mode-hook 'visual-line-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
-(add-hook 'markdown-mode-hook 'visual-line-mode)
 (add-hook 'html-mode-hook 'visual-line-mode)
 
-(setq markdown-enable-wiki-links t)
+(use-package markdown-mode
+  :ensure t
+  :hook (markdown-mode . visual-line-mode)
+  :config
+  (setq markdown-enable-wiki-links t))
 
 ;; Do not truncate the shell buffer
 (add-hook 'comint-mode-hook
