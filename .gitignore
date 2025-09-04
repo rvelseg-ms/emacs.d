@@ -13,3 +13,4 @@ elpa/
 /custom.el
 *.gpg
 *.sqlite
+/url/
