@@ -335,7 +335,11 @@
   (setq company-tooltip-align-annotations t)
   :bind
   (:map company-active-map
-        ([escape] . company-abort)))
+        ([escape] . company-abort)
+        ("<return>" . nil)
+        ("RET" . nil)
+        ("<tab>" . company-complete-selection)
+        ("TAB" . company-complete-selection)))
 
 ;; ;;; Company backend for org-roam tags
 ;; (defun my/org-roam-get-all-tags ()
