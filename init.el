@@ -335,7 +335,11 @@
   (setq company-tooltip-align-annotations t)
   :bind
   (:map company-active-map
-        ([escape] . company-abort)))
+        ([escape] . company-abort)
+        ("<return>" . nil)
+        ("RET" . nil)
+        ("<tab>" . company-complete-selection)
+        ("TAB" . company-complete-selection)))
 
 ;; ;;; Company backend for org-roam tags
 ;; (defun my/org-roam-get-all-tags ()
@@ -415,7 +419,9 @@
   :ensure t
   :config
   (setq org-ellipsis " ▼")
-  (setq org-hide-emphasis-markers t))
+  (setq org-hide-emphasis-markers t)
+  (setq org-export-in-background t)
+  (add-to-list 'org-file-apps '("\\.pdf\\'" . "evince %s")))
 
 ;; NOTE: org-roam requires sqlite3 to be installed on your system.
 ;; You can install it with your system's package manager, e.g.,
