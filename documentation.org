@@ -1,0 +1,528 @@
+#+title: Emacs Configuration Documentation
+#+author: Jules
+#+date: <2025-09-15 Mon>
+#+options: toc:nil
+
+* Introduction
+This document provides a detailed explanation of the Emacs configuration file, =init.el=. The configuration is modular and uses the =use-package= macro to manage packages.
+
+* Initial Setup
+
+** lexical-binding: t
+This sets lexical binding as the default for the file, which is a more modern and generally better-performing way of handling variables in Emacs Lisp.
+
+** Sensible Information
+#+begin_src emacs-lisp
+;; Import sensitive configuration file (keys, etc.)
+(setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
+(let ((sensible-file (expand-file-name "sensible2.el.gpg" user-emacs-directory)))
+  (when (file-exists-p sensible-file)
+    (load sensible-file)))
+#+end_src
+This section loads a separate, encrypted file named =sensible2.el.gpg= which is expected to contain sensitive information like API keys or passwords. The =auth-sources= variable is set to use =.authinfo.gpg= for authentication.
+
+** Basic UI Configuration
+#+begin_src emacs-lisp
+;;; Basic configuration
+(setq inhibit-startup-message t)     ; Disable welcome message
+(setq initial-scratch-message ";;")  ; Initial *scratch* buffer message
+(menu-bar-mode -1)                   ; Disable menu bar
+(tool-bar-mode -1)                   ; Disable tool bar
+(scroll-bar-mode -1)                 ; Disable scroll bar
+#+end_src
+This part of the configuration disables various UI elements to provide a more minimalist interface. It turns off the startup message, menu bar, tool bar, and scroll bar.
+
+* Packages
+This section covers the configuration of various packages installed to extend Emacs functionality.
+
+** dired-subtree
+#+begin_src emacs-lisp
+(use-package dired-subtree
+  :ensure t
+  :defer t
+  :after dired
+  :bind (:map dired-mode-map
+              ("TAB" . dired-subtree-toggle)
+              ("<tab>" . dired-subtree-toggle)
+              ("C-<tab>" . dired-subtree-cycle))
+  :config
+  (setq dired-subtree-use-backgrounds nil))
+#+end_src
+This package allows you to toggle the view of subdirectories within a Dired buffer.
+
+** ultra-scroll
+#+begin_src emacs-lisp
+(use-package ultra-scroll
+  :ensure t
+  :init
+  ;; Default configuration
+  (setq scroll-conservatively 3
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
+#+end_src
+This package provides smooth scrolling functionality.
+
+** f and wfnames
+#+begin_src emacs-lisp
+(use-package f
+  :ensure t)
+
+(use-package wfnames
+  :ensure t)
+#+end_src
+These are utility packages for file and path manipulation.
+
+** restart-emacs
+#+begin_src emacs-lisp
+(use-package restart-emacs
+  :ensure t)
+#+end_src
+A simple utility to restart Emacs.
+
+** recentf
+#+begin_src emacs-lisp
+(use-package recentf
+  :ensure nil  ; Included with Emacs
+  :init
+  (setq recentf-max-saved-items 1000
+        recentf-max-menu-items 1000
+        recentf-auto-cleanup 'never
+        recentf-save-file (concat user-emacs-directory "recentf"))
+  :config
+  (recentf-mode 1)
+  ;; Save the list every 5 minutes
+  (run-at-time nil (* 5 60) 'recentf-save-list)
+  ;; Save on Emacs exit
+  (add-hook 'kill-emacs-hook #'recentf-save-list))
+#+end_src
+Configures =recentf= to keep a long history of recently opened files and saves it periodically and on exit.
+
+** savehist
+#+begin_src emacs-lisp
+(use-package savehist
+  :ensure nil ; Included with Emacs
+  :init
+  (setq savehist-file (concat user-emacs-directory ".savehist")
+        savehist-additional-variables '(kill-ring))
+  :config
+  (savehist-mode 1))
+#+end_src
+This package saves the minibuffer history and other variables (in this case, the kill ring) between Emacs sessions.
+
+** Line Numbers
+#+begin_src emacs-lisp
+(global-display-line-numbers-mode 0)
+#+end_src
+Disables global line numbers.
+
+** y-or-n-p
+#+begin_src emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+Replaces the default `yes` or `no` prompts with `y` or `n`.
+
+** Backup Configuration
+#+begin_src emacs-lisp
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+#+end_src
+Configures Emacs to store all backup and auto-save files in dedicated directories within =~/.emacs.d=.
+
+** Package Repositories
+#+begin_src emacs-lisp
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+
+(package-initialize)
+
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+#+end_src
+This section sets up the package management system. It defines the package repositories (MELPA, GNU, Nongnu), initializes the package system, and ensures that `use-package` is installed.
+
+** Theme
+#+begin_src emacs-lisp
+(use-package monokai-theme
+  :ensure t
+  :config
+  (load-theme 'monokai t))
+#+end_src
+Loads the `monokai` theme.
+
+** Global Keybindings
+This section defines custom keybindings that are available globally.
+
+*** Window Splitting
+#+begin_src emacs-lisp
+(defun toggle-split-direction ()
+  "Toggle the split direction of the current window."
+  (interactive)
+  (if (window-split-horizontally-p)
+      (progn
+        (delete-other-windows)
+        (split-window-vertically))
+    (progn
+      (delete-other-windows)
+      (split-window-horizontally))))
+
+(global-set-key (kbd "C-c |") 'toggle-split-direction)
+#+end_src
+A function and keybinding to toggle the window split between horizontal and vertical.
+
+*** Font Size
+#+begin_src emacs-lisp
+(defun global-text-scale-increase ()
+  "Increase font size globally."
+  (interactive)
+  (let ((new-height (+ (face-attribute 'default :height) 10)))
+    (set-face-attribute 'default nil :height new-height)))
+
+(defun global-text-scale-decrease ()
+  "Decrease font size globally."
+  (interactive)
+  (let ((new-height (- (face-attribute 'default :height) 10)))
+    (when (> new-height 50)  ; Avoid fonts that are too small
+      (set-face-attribute 'default nil :height new-height))))
+
+(defun global-text-scale-reset ()
+  "Reset font size to default."
+  (interactive)
+  (set-face-attribute 'default nil :height 100))  ; 100 is the default size
+
+(global-set-key (kbd "C-+") 'global-text-scale-increase)
+(global-set-key (kbd "C--") 'global-text-scale-decrease)
+(global-set-key (kbd "C-=") 'global-text-scale-increase)
+(global-set-key (kbd "C-0") 'global-text-scale-reset)
+#+end_src
+Functions and keybindings to increase, decrease, and reset the global font size.
+
+*** Window Resizing and Navigation
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-S-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "C-S-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-S-<down>") 'shrink-window)
+(global-set-key (kbd "C-S-<up>") 'enlarge-window)
+
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+#+end_src
+Keybindings for resizing windows and enabling `windmove` for easy navigation between windows.
+
+** Version Control (Magit)
+#+begin_src emacs-lisp
+(use-package magit
+  :defer t
+  :bind (("C-x g" . magit-status)
+         ("C-x v d" . magit-status)
+         ("C-x M-g" . magit-dispatch)
+         ("C-c g b" . magit-blame)
+         ("C-c g l" . magit-log-current)
+         ("C-c g f" . magit-log-buffer-file)
+         ("C-c g d" . magit-diff-buffer-file)
+         ("C-c g r" . magit-diff-toggle-refine-hunk))
+  :config
+  (setq magit-diff-refine-hunk 'all))
+
+(use-package forge
+  :after magit)
+
+(use-package code-review
+  :after forge
+  :config
+  (add-hook 'code-review-mode-hook #'emojify-mode)
+  (setq code-review-fill-column 80)
+  (setq code-review-auth-login-marker 'forge)
+  :bind (:map forge-topic-mode-map
+              ("C-c r" . code-review-forge-pr-at-point)))
+#+end_src
+Configures Magit for Git integration, along with Forge for working with Git forges and a code review package.
+
+** Helm
+#+begin_src emacs-lisp
+(use-package helm
+  :defer t
+  :init
+  (setq helm-M-x-fuzzy-match t
+        helm-mode-fuzzy-match t
+        helm-buffers-fuzzy-matching t
+        helm-recentf-fuzzy-match t
+        helm-locate-fuzzy-match t
+        helm-semantic-fuzzy-match t
+        helm-imenu-fuzzy-match t
+        helm-completion-in-region-fuzzy-match t
+        helm-candidate-number-limit 150
+        helm-split-window-inside-p nil
+        helm-move-to-line-cycle-in-source t
+        helm-echo-input-in-header-line t
+        helm-autoresize-max-height 100
+        helm-autoresize-min-height 100
+        helm-display-buffer-default-height 100
+        helm-mini-default-sources '(helm-source-buffers-list
+                                     helm-source-recentf
+                                     helm-source-bookmarks))
+  :config
+  (helm-mode 1)
+  (helm-autoresize-mode 1)
+  :bind (("M-x" . helm-M-x)
+         ("C-x r b" . helm-filtered-bookmarks)
+         ("C-x C-f" . helm-find-files)
+         ("C-x b"   . helm-for-files)
+         ("C-x C-b" . helm-for-files)
+         ("C-x C-r" . helm-recentf)
+         ("C-c h o" . helm-occur)
+         ("C-c h g" . helm-google-suggest)))
+#+end_src
+Configures Helm for completion, with fuzzy matching enabled and various other customizations.
+
+** swiper-helm
+#+begin_src emacs-lisp
+(use-package swiper-helm
+  :ensure t
+  :defer t
+  :bind (("M-i" . swiper-helm)
+         ("C-c s" . swiper-helm)))
+#+end_src
+Integrates Swiper with Helm for searching.
+
+** Dired
+#+begin_src emacs-lisp
+(use-package dired
+  :ensure nil  ; Dired is included with Emacs
+  :defer t
+  :custom
+  (dired-listing-switches "-alh --group-directories-first")
+  (dired-hide-details-mode t)
+  (dired-open-extensions '(("gif" . "eog")
+                         ("jpg"   . "eog")
+                         ("png"   . "eog")
+                         ("mkv"   . "totem")
+                         ("mp4"   . "totem")
+                         ("pdf"   . "evince")
+                         ("html"  . "firefox")
+                         ("sh"    . "bash")
+                         ("doc"   . "libreoffice")
+                         ("docx"  . "libreoffice")
+                         ("xls"   . "libreoffice")
+                         ("xlsx"  . "libreoffice")
+                         ("ppt"   . "libreoffice")
+                         ("pptx"  . "libreoffice")
+                         ("odt"   . "libreoffice")
+                         ("ods"   . "libreoffice")
+                         ("odp"   . "libreoffice")))
+  :config
+  (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
+
+(global-set-key (kbd "C-c p") 'dired-jump)
+
+(use-package dired-k
+  :ensure t)
+
+(use-package dired-hide-dotfiles
+  :ensure t
+  :hook (dired-mode . dired-hide-dotfiles-mode))
+
+(defun dired-open-marked-files ()
+  "In Dired, open all marked files in new buffers."
+  (interactive)
+  (mapc #'find-file (dired-get-marked-files)))
+
+(use-package dired-x
+  :ensure nil
+  :hook (dired-mode . dired-omit-mode)
+  :bind (:map dired-mode-map
+              ("." . dired-omit-mode)
+	      ("K" . dired-k)
+	      ("p" . dired-up-directory)
+	      ("F" . dired-open-marked-files)
+	      ("i" . dired-subtree-toggle))
+  :config
+  (setq dired-omit-files "^\\...+$"))
+#+end_src
+Extensive configuration for Dired, the Emacs file manager. This includes custom listing switches, hiding details, setting default applications for various file types, and adding keybindings for common operations.
+
+** ChatGPT Shell
+#+begin_src emacs-lisp
+(use-package chatgpt-shell
+  :ensure t
+  :defer t
+  :bind (("C-c c c" . chatgpt-shell)
+         ("C-c c r" . chatgpt-shell-send-region)
+         ("C-c c b" . chatgpt-shell-send-buffer)
+         ("C-c c p" . chatgpt-shell-prompt-compose)
+         ("C-c c s" . chatgpt-shell-send-and-review-region))
+  :config
+  (setq chatgpt-shell-openai-key openai-key))
+#+end_src
+Integrates a ChatGPT shell into Emacs.
+
+** Company Mode
+#+begin_src emacs-lisp
+(use-package company
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (setq company-idle-delay 0.2)
+  (setq company-minimum-prefix-length 2)
+  (setq company-selection-wrap-around t)
+  (setq company-tooltip-align-annotations t)
+  :bind
+  (:map company-active-map
+        ([escape] . company-abort)
+        ("<return>" . nil)
+        ("RET" . nil)
+        ("<tab>" . company-complete-selection)
+        ("TAB" . company-complete-selection)))
+#+end_src
+Configures Company for code completion.
+
+** Yasnippet
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :init
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
+#+end_src
+Sets up Yasnippet for template expansion.
+
+** Python
+#+begin_src emacs-lisp
+(use-package python-mode
+  :ensure t
+  :hook (python-mode . python-ts-mode)
+  :bind (:map python-mode-map
+              ("C-c C-f" . treesit-fold-toggle)))
+#+end_src
+Basic configuration for Python mode.
+
+** GitLab CI
+#+begin_src emacs-lisp
+(use-package gitlab-ci-mode
+  :ensure t
+  :defer t)
+
+(use-package gitlab-ci-mode-flycheck
+  :ensure t
+  :after gitlab-ci-mode)
+#+end_src
+Adds support for GitLab CI files.
+
+** Org Mode
+#+begin_src emacs-lisp
+(use-package org-bullets
+  :ensure t
+  :after org
+  :hook (org-mode . org-bullets-mode))
+
+(use-package org
+  :ensure t
+  :config
+  (setq org-ellipsis " ▼")
+  (setq org-hide-emphasis-markers t)
+  (setq org-export-in-background t)
+  (add-to-list 'org-file-apps '("\\.pdf\\'" . "evince %s")))
+#+end_src
+Configuration for Org mode, including `org-bullets` for prettier bullets and other settings.
+
+** Org Roam
+#+begin_src emacs-lisp
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-directory (file-truename "~/personal/roam/org"))
+  (setq org-roam-db-location (expand-file-name "org-roam.db" org-roam-directory))
+  (setq org-roam-file-extensions '("org" "md"))
+  :custom
+  (org-roam-completion-everywhere t)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ("C-c n a" . org-roam-alias-add)
+         ("C-c n t" . org-roam-tag-add)
+         ("C-c n r" . org-roam-node-random)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  (org-roam-db-autosync-mode)
+  (require 'org-roam-protocol))
+#+end_src
+Sets up Org Roam for note-taking and knowledge management.
+
+** Org Roam UI
+#+begin_src emacs-lisp
+(use-package org-roam-ui
+  :ensure t
+  :after org-roam
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
+#+end_src
+Configures the web UI for Org Roam.
+
+** Visual Line Mode
+#+begin_src emacs-lisp
+(add-hook 'magit-mode-hook 'visual-line-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
+(add-hook 'html-mode-hook 'visual-line-mode)
+
+(use-package markdown-mode
+  :ensure t
+  :hook (markdown-mode . visual-line-mode)
+  :config
+  (setq markdown-enable-wiki-links t))
+#+end_src
+Enables `visual-line-mode` for several modes to wrap lines at word boundaries.
+
+** Comint Mode
+#+begin_src emacs-lisp
+(add-hook 'comint-mode-hook
+          (lambda ()
+            (setq comint-buffer-maximum-size 100000)
+            (setq comint-scroll-to-bottom-on-input t)
+            (setq comint-scroll-show-maximum-output t)
+            (setq comint-input-ignoredups t)
+            (setq comint-output-filter-functions
+                  (remove 'comint-truncate-buffer comint-output-filter-functions))))
+#+end_src
+Customizes the behavior of command-line interface buffers.
+
+** treesit-fold
+#+begin_src emacs-lisp
+(use-package treesit-fold
+  :ensure t)
+#+end_src
+Enables code folding based on the treesitter parsing library.
+
+** Winner Mode
+#+begin_src emacs-lisp
+(winner-mode 1)
+#+end_src
+Enables `winner-mode`, which allows you to undo and redo window configuration changes.
+
+** Custom File
+#+begin_src emacs-lisp
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+#+end_src
+Loads a custom file for settings managed by the `customize` interface and re-enables the `downcase-region` and `upcase-region` commands.

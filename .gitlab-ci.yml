@@ -1,0 +1,33 @@
+# .gitlab-ci.yml
+
+# Use the official Docker image to run Docker commands
+image: docker:latest
+
+services:
+  - docker:dind
+
+# Define a job for publishing to GitLab Pages
+pages:
+  stage: deploy
+  script:
+    # Build the Docker image for the org-exporter
+    - docker build -t org-exporter ./docker
+
+    # Run the exporter to convert documentation.org to HTML
+    # The output will be documentation.html in the root directory
+    - docker run --rm -v "$(pwd)":/workspace org-exporter documentation.org --css style
+
+    # GitLab Pages requires the output to be in a 'public' directory
+    # We move the generated HTML file to public/index.html
+    - mkdir -p public
+    - mv documentation.html public/index.html
+
+  artifacts:
+    paths:
+      # This tells GitLab CI to save the 'public' directory as an artifact
+      # which will then be deployed to GitLab Pages
+      - public
+
+  # This job should only run on pushes to the main branch
+  only:
+    - main

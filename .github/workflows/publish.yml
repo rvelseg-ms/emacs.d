@@ -1,0 +1,47 @@
+name: Publish Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t org-exporter ./docker
+
+      - name: Render documentation
+        run: |
+          docker run --rm -v "$(pwd)":/workspace org-exporter documentation.org --css style
+
+      - name: Prepare for deployment
+        run: |
+          mkdir -p deploy
+          mv documentation.html deploy/index.html
+          # The style.css is referenced inside the html as /usr/local/share/org-css/style.css
+          # but we are not copying it to the gh-pages branch.
+          # The render.sh script inlines the css, so we don't need to copy it.
+          # Let's check the render.sh script again.
+          # Yes, it inlines the CSS. So we don't need to copy it.
+          # So we just need to move the documentation.html to deploy/index.html
+          # and that's it.
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy documentation to GitHub Pages'
+          full_commit_message: 'Deploy documentation to GitHub Pages'
+          allow_empty_commit: true
+          # The following line is not needed because we are using publish_dir
+          # and we have already prepared the directory.
+          # publish_files: documentation.html => index.html
