@@ -1,0 +1,52 @@
+/* low-contrast dark palette */
+
+body {
+  background: #3F3F3F;
+  color: #DCDCCC;
+  font: 14px/1.5 sans-serif;
+}
+
+a:link {
+  color: #8CD0D3;
+}
+
+a:visited {
+  color: #9FAFAF;
+}
+
+a:hover {
+  color: #F0DFAF;
+  text-decoration: underline;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background: #2B2B2B;
+  color: #F0DFAF;
+  padding: 4px 8px;
+}
+
+td {
+  padding: 4px 8px;
+}
+
+tr:nth-child(even) {
+  background: #383838;
+}
+
+tr:hover {
+  background: #4F4F4F;
+}
+
+.icon,
+img {
+  filter: grayscale(50%) brightness(85%);
+}
+
+pre {
+  background: #422f2f;
+}
