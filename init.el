@@ -295,6 +295,13 @@
   (interactive)
   (mapc #'find-file (dired-get-marked-files)))
 
+(defun jules-dired-open-in-other-window-no-focus ()
+  "Open the file under point in another window, keeping focus in Dired."
+  (interactive)
+  (let ((current-win (selected-window)))
+    (dired-find-file-other-window)
+    (select-window current-win)))
+
 (use-package dired-x
   :ensure nil
   :hook (dired-mode . dired-omit-mode)
@@ -303,6 +310,7 @@
 	      ("K" . dired-k)
 	      ("p" . dired-up-directory)
 	      ("F" . dired-open-marked-files)
+	      (" " . jules-dired-open-in-other-window-no-focus)
 	      ("i" . dired-subtree-toggle))
   :config
   (setq dired-omit-files "^\\...+$")
