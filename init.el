@@ -146,6 +146,13 @@
       (split-window-horizontally))))
 
 ;;; Global key bindings
+(defun search-word-at-point ()
+  "Search for the word at the current cursor position using swiper-helm."
+  (interactive)
+  (let ((word (thing-at-point 'symbol)))
+    (when word
+      (swiper-helm word))))
+
 ;; Functions to change font size globally
 (defun global-text-scale-increase ()
   "Increase font size globally."
@@ -186,6 +193,9 @@
 
 ;; Toggle split direction
 (global-set-key (kbd "C-c |") 'toggle-split-direction)
+
+;; Search for word at point
+(global-set-key (kbd "C-c w") 'search-word-at-point)
 
 ;;; Version control - Magit
 (use-package magit

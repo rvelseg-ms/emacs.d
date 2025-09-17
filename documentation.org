@@ -218,6 +218,19 @@ Functions and keybindings to increase, decrease, and reset the global font size.
 #+end_src
 Keybindings for resizing windows and enabling `windmove` for easy navigation between windows.
 
+*** Search Word at Point
+#+begin_src emacs-lisp
+(defun search-word-at-point ()
+  "Search for the word at the current cursor position using swiper-helm."
+  (interactive)
+  (let ((word (thing-at-point 'symbol)))
+    (when word
+      (swiper-helm word))))
+
+(global-set-key (kbd "C-c w") 'search-word-at-point)
+#+end_src
+This function, bound to =C-c w=, allows you to search for the word currently under the cursor using =swiper-helm=.
+
 ** Version Control (Magit)
 #+begin_src emacs-lisp
 (use-package magit
