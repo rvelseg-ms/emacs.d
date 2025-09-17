@@ -350,6 +350,26 @@ Integrates Swiper with Helm for searching.
 #+end_src
 Extensive configuration for Dired, the Emacs file manager. This includes custom listing switches, hiding details, setting default applications for various file types, and adding keybindings for common operations.
 
+*** Open File in Other Window (Spacebar)
+#+begin_src emacs-lisp
+(defun jules-dired-open-in-other-window-no-focus ()
+  "Open the file under point in another window, keeping focus in Dired."
+  (interactive)
+  (let ((current-win (selected-window)))
+    (dired-find-file-other-window)
+    (select-window current-win)))
+
+;; This function is then bound to the spacebar in the dired-x configuration:
+(use-package dired-x
+  ;; ...
+  :bind (:map dired-mode-map
+              ;; ...
+              (" " . jules-dired-open-in-other-window-no-focus)
+              ;; ...
+              ))
+#+end_src
+A custom function `jules-dired-open-in-other-window-no-focus` is defined to open the file under the cursor in another window without switching focus away from the Dired buffer. This is useful for quickly previewing files. The spacebar is bound to this function in Dired mode.
+
 ** ChatGPT Shell
 #+begin_src emacs-lisp
 (use-package chatgpt-shell
