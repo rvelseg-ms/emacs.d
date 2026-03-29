@@ -277,7 +277,7 @@
                          ("png"   . "eog")
                          ("mkv"   . "totem")
                          ("mp4"   . "totem")
-                         ("pdf"   . "evince")
+                         ("pdf"   . "/usr/bin/evince")
                          ("html"  . "firefox")
                          ("sh"    . "bash")
                          ("doc"   . "libreoffice")
