@@ -1,10 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
-;; Import sensitive configuration file (keys, etc.)
-(setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
-(let ((sensible-file (expand-file-name "sensible2.el.gpg" user-emacs-directory)))
-  (when (file-exists-p sensible-file)
-    (load sensible-file)))
+;; ;; Import sensitive configuration file (keys, etc.)
+;; (setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
+;; (let ((sensible-file (expand-file-name "sensible2.el.gpg" user-emacs-directory)))
+;;   (when (file-exists-p sensible-file)
+;;     (load sensible-file)))
 
 (use-package dired-subtree
   :ensure t
@@ -236,6 +236,7 @@
         helm-semantic-fuzzy-match t
         helm-imenu-fuzzy-match t
         helm-completion-in-region-fuzzy-match t
+        helm-split-kill-ring-by-line nil
         helm-candidate-number-limit 150
         helm-split-window-inside-p nil  ; Changed to nil to use the whole frame
         helm-move-to-line-cycle-in-source t
@@ -517,3 +518,13 @@
 (load custom-file)
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+
+
+(defun eliminar-saltos-linea-simples-region (start end)
+  "Eliminar saltos de línea simples en la región, dejando intactos los dobles o más saltos juntos."
+  (interactive "r")
+  (save-excursion
+    (goto-char start)
+    (while (re-search-forward "\\([^\n]\\)\n\\([^\n]\\)" end t)
+      (replace-match "\\1 \\2"))))
