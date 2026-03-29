@@ -298,8 +298,7 @@
   :ensure t)
 
 (use-package dired-hide-dotfiles
-  :ensure t
-  :hook (dired-mode . dired-hide-dotfiles-mode))
+  :ensure t)
 
 (defun dired-open-marked-files ()
   "In Dired, open all marked files in new buffers."
