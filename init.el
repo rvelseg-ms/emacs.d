@@ -324,7 +324,7 @@
 	      (" " . jules-dired-open-in-other-window-no-focus)
 	      ("i" . dired-subtree-toggle))
   :config
-  (setq dired-omit-files "^\\..*")
+  (setq dired-omit-files "^\\.[^./]")
   )
 
 ;;; ChatGPT Shell - OpenAI Integration
