@@ -197,11 +197,15 @@
 ;; Search for word at point
 (global-set-key (kbd "C-c w") 'search-word-at-point)
 
+;; Desktop clear
+(global-set-key (kbd "C-c d c") 'desktop-clear)
+
 ;;; Version control - Magit
 (use-package magit
   :defer t
   :bind (("C-x g" . magit-status)
          ("C-x v d" . magit-status)
+         ("C-x v f" . magit-find-file)
          ("C-x M-g" . magit-dispatch)
          ("C-c g b" . magit-blame)
          ("C-c g l" . magit-log-current)
@@ -251,6 +255,7 @@
   (helm-mode 1)
   (helm-autoresize-mode 1)
   :bind (("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files)
          ("C-x b"   . helm-for-files)
@@ -290,7 +295,25 @@
                          ("ods"   . "libreoffice")
                          ("odp"   . "libreoffice")))
   :config
-  (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1))))
+  (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
+  (setq dired-guess-shell-alist-user
+        '(("\\.pdf\\'" "evince")
+          ("\\.gif\\'" "eog")
+          ("\\.jpg\\'" "eog")
+          ("\\.png\\'" "eog")
+          ("\\.mkv\\'" "mpv")
+          ("\\.mp4\\'" "mpv")
+          ("\\.html\\'" "firefox")
+          ("\\.sh\\'" "bash")
+          ("\\.doc\\'" "libreoffice")
+          ("\\.docx\\'" "libreoffice")
+          ("\\.xls\\'" "libreoffice")
+          ("\\.xlsx\\'" "libreoffice")
+          ("\\.ppt\\'" "libreoffice")
+          ("\\.pptx\\'" "libreoffice")
+          ("\\.odt\\'" "libreoffice")
+          ("\\.ods\\'" "libreoffice")
+          ("\\.odp\\'" "libreoffice"))))
 
 (global-set-key (kbd "C-c p") 'dired-jump)
 
