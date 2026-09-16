@@ -537,8 +537,24 @@
 (use-package markdown-mode
   :ensure t
   :hook (markdown-mode . visual-line-mode)
+  :bind (:map markdown-mode-map
+              ("C-c C-y" . my/markdown-yank-blockquote))
   :config
-  (setq markdown-enable-wiki-links t))
+  (setq markdown-enable-wiki-links t)
+  
+  (defun my/markdown-yank-blockquote ()
+    "Yank text from the kill ring and prepend it with '> ' to create a blockquote."
+    (interactive)
+    (let* ((text (current-kill 0 t))
+           (quoted-text
+            (with-temp-buffer
+              (insert text)
+              (goto-char (point-min))
+              (while (not (eobp))
+                (insert "> ")
+                (forward-line 1))
+              (buffer-string))))
+      (insert quoted-text))))
 
 ;; Do not truncate the shell buffer
 (add-hook 'comint-mode-hook
