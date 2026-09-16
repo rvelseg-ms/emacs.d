@@ -15,4 +15,5 @@ elpa/
 *.sqlite
 /url/
 /.savehist
-/session.1019ffeebbad8f589f176305187670019200000020100092
+/session.*
+
