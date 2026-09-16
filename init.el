@@ -1,7 +1,19 @@
 ;; -*- lexical-binding: t -*-
 
-;; ;; Import sensitive configuration file (keys, etc.)
-;; (setq auth-sources '("~/.emacs.d/.authinfo.gpg"))
+(require 'cl-lib)
+
+;; Import sensitive configuration file (keys, etc.)
+(setq auth-sources '("~/.emacs.d/.authinfo.gpg" "~/.authinfo.gpg" "~/.authinfo"))
+(put 'auth-sources 'safe-local-variable (lambda (x) (and (listp x) (cl-every 'stringp x))))
+
+;; Project-specific configuration for Overleaf
+(dir-locals-set-class-variables
+ 'overleaf-project
+ '((nil . ((auth-sources . ("~/.emacs.d/.authinfo.gpg"))))))
+
+(dir-locals-set-directory-class
+ "/home/rvelseg/personal/projects/bisel/tmp/paperAmmara/overleaf/"
+ 'overleaf-project)
 ;; (let ((sensible-file (expand-file-name "sensible2.el.gpg" user-emacs-directory)))
 ;;   (when (file-exists-p sensible-file)
 ;;     (load sensible-file)))
@@ -441,6 +453,17 @@
   :hook (python-mode . python-ts-mode)
   :bind (:map python-mode-map
               ("C-c C-f" . treesit-fold-toggle)))
+
+;;; AUCTeX - LaTeX editing
+(use-package tex
+  :ensure auctex
+  :config
+  (setq TeX-view-program-selection '((output-pdf "Evince"))
+        TeX-source-correlate-mode t
+        TeX-source-correlate-start-server t)
+  ;; Update PDF view after compilation
+  (add-hook 'TeX-after-compilation-finished-functions
+            #'TeX-revert-prev-view-buffer))
 
 (use-package gitlab-ci-mode
   :ensure t
